@@ -16,7 +16,7 @@ tooltip.forEach(element => {
 		element.appendChild(spanElement);
 	} else if (element.dataset.tooltipType === 'image') {
 		spanElement.classList.add('tooltip__box', 'tooltip__box--image');
-		imageElement.classList.add('.tooltip__image');
+		imageElement.classList.add('tooltip__image');
 
 		aElement.setAttribute('href', element.dataset.url);
 		imageElement.setAttribute('src', element.dataset.tooltipContent);
