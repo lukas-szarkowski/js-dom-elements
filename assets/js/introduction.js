@@ -1,30 +1,51 @@
 const tooltip = document.querySelectorAll('.tooltip');
 
-tooltip.forEach(element => {
-	const aElement = document.createElement('a');
-	const spanElement = document.createElement('span');
-	const imageElement = document.createElement('img');
+for (let i = 0; i < tooltip.length; i++) {
+	const text = tooltip[i].textContent;
+	tooltip[i].textContent = '';
 
-	if (element.dataset.tooltipType === 'text') {
-		spanElement.classList.add('tooltip__box', 'tooltip__box--text');
-		aElement.setAttribute('href', element.dataset.url);
-		aElement.innerText = element.innerText;
-		element.innerText = '';
-		spanElement.innerText = element.dataset.tooltipContent;
+	
+	const link = tooltip[i].dataset.url;
+	const tooltipType = tooltip[i].dataset.tooltipType;
+	const value = tooltip[i].dataset.tooltipContent;
+	
+	createElement('a', tooltip[i], {'href': link}, text);
+	const spanElement = createElement('span', tooltip[i], {'class': 'tooltip__box'});
 
-		element.appendChild(aElement);
-		element.appendChild(spanElement);
-	} else if (element.dataset.tooltipType === 'image') {
-		spanElement.classList.add('tooltip__box', 'tooltip__box--image');
-		imageElement.classList.add('tooltip__image');
+	// aElement.setAttribute('href', link);
+	// aElement.textContent = text;
 
-		aElement.setAttribute('href', element.dataset.url);
-		imageElement.setAttribute('src', element.dataset.tooltipContent);
+	// spanElement.setAttribute('class', 'tooltip__box');
 
-		aElement.innerText = element.innerText;
-		element.innerText = '';
-		element.appendChild(aElement);
-		element.appendChild(spanElement);
-		spanElement.appendChild(imageElement);
+	if (tooltipType === 'text') {
+		spanElement.textContent = value;
+		spanElement.classList.add('tooltip__box--text');
+	} else if (tooltipType === 'image') {
+		createElement('img', spanElement, {'class': 'tooltip__image', 'src': value} );
+		spanElement.classList.add('tooltip__box--image');
+		// spanElement.appendChild(imageElement);
+		// imageElement.setAttribute('class', 'tooltip__image');
+		// imageElement.setAttribute('src', value);
 	}
-});
+}
+
+function createElement(type, parent, attr, text) {
+	const element = document.createElement(type);
+
+	if (parent) {
+		parent.appendChild(element);
+	}
+
+	if (attr) {
+		for(const prop in attr) {
+			const value = attr[prop];
+			element.setAttribute(prop, value);
+		}
+	}
+
+	if (text) {
+		element.textContent = text;
+	}
+
+	return element;
+}
